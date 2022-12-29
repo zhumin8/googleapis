@@ -9,3 +9,6 @@ build --repo_env=BAZEL_CXXOPTS="-std=c++14"
 # see https://github.com/bazelbuild/bazel/issues/3236 for more details
 build --enable_platform_specific_config
 build:linux --sandbox_tmpfs_path=/tmp
+
+# Writing done git commit info
+build:linux --workspace_status_command=tools/workspace_status_command.sh

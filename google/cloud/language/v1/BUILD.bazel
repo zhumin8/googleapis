@@ -50,6 +50,15 @@ load(
     "java_proto_library",
 )
 
+genrule(
+    name = "generate_build_info",
+    outs = ["version.txt"],
+    cmd = """
+(sed -n -e 's/^STABLE_GIT_COMMIT  *//p' bazel-out/stable-status.txt) > $@
+  """,
+    stamp = True,
+)
+
 java_proto_library(
     name = "language_java_proto",
     deps = [":language_proto"],
