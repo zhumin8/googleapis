@@ -92,9 +92,9 @@ proto_library(
         "model_deployment_monitoring_job.proto",
         "model_evaluation.proto",
         "model_evaluation_slice.proto",
+        "model_garden_service.proto",
         "model_monitoring.proto",
         "model_service.proto",
-        "model_garden_service.proto",
         "nas_job.proto",
         "openapi.proto",
         "operation.proto",
@@ -105,9 +105,9 @@ proto_library(
         "prediction_service.proto",
         "publisher_model.proto",
         "saved_query.proto",
-        "service_networking.proto",
         "schedule.proto",
         "schedule_service.proto",
+        "service_networking.proto",
         "specialist_pool.proto",
         "specialist_pool_service.proto",
         "study.proto",
@@ -162,6 +162,7 @@ load(
     "@com_google_googleapis_imports//:imports.bzl",
     "java_gapic_assembly_gradle_pkg",
     "java_gapic_library",
+    "java_gapic_spring_library",
     "java_gapic_test",
     "java_grpc_library",
     "java_proto_library",
@@ -269,9 +270,9 @@ go_proto_library(
         "//google/api:httpbody_go_proto",
         "//google/longrunning:longrunning_go_proto",
         "//google/rpc:status_go_proto",
+        "//google/type:date_go_proto",
         "//google/type:interval_go_proto",
         "//google/type:money_go_proto",
-        "//google/type:date_go_proto",
     ],
 )
 
@@ -547,4 +548,13 @@ cc_grpc_library(
     srcs = [":aiplatform_proto"],
     grpc_only = True,
     deps = [":aiplatform_cc_proto"],
+)
+
+java_gapic_spring_library(
+    name = "aiplatform_java_gapic_spring",
+    srcs = [":aiplatform_proto_with_info"],
+    gapic_yaml = "aiplatform_gapic.yaml",
+    grpc_service_config = "aiplatform_grpc_service_config.json",
+    service_yaml = "aiplatform_v1.yaml",
+    transport = "grpc",
 )
