@@ -53,6 +53,7 @@ load(
     "@com_google_googleapis_imports//:imports.bzl",
     "java_gapic_assembly_gradle_pkg",
     "java_gapic_library",
+    "java_gapic_spring_library",
     "java_gapic_test",
     "java_grpc_library",
     "java_proto_library",
@@ -390,4 +391,13 @@ cc_grpc_library(
     srcs = [":functions_proto"],
     grpc_only = True,
     deps = [":functions_cc_proto"],
+)
+
+java_gapic_spring_library(
+    name = "functions_java_gapic_spring",
+    srcs = [":functions_proto_with_info"],
+    gapic_yaml = None,
+    grpc_service_config = "functions_grpc_service_config.json",
+    service_yaml = "cloudfunctions_v2.yaml",
+    transport = "grpc+rest",
 )
