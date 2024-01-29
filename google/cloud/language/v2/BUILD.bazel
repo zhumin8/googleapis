@@ -45,6 +45,7 @@ load(
     "@com_google_googleapis_imports//:imports.bzl",
     "java_gapic_assembly_gradle_pkg",
     "java_gapic_library",
+    "java_gapic_spring_library",
     "java_gapic_test",
     "java_grpc_library",
     "java_proto_library",
@@ -90,6 +91,7 @@ java_gapic_test(
 # Open Source Packages
 java_gapic_assembly_gradle_pkg(
     name = "google-cloud-language-v2-java",
+    include_samples = True,
     transport = "grpc+rest",
     deps = [
         ":language_java_gapic",
@@ -97,7 +99,6 @@ java_gapic_assembly_gradle_pkg(
         ":language_java_proto",
         ":language_proto",
     ],
-    include_samples = True,
 )
 
 ##############################################################################
@@ -140,9 +141,9 @@ go_gapic_assembly_pkg(
     name = "gapi-cloud-language-v2-go",
     deps = [
         ":language_go_gapic",
-        ":language_go_gapic_srcjar-test.srcjar",
         ":language_go_gapic_srcjar-metadata.srcjar",
         ":language_go_gapic_srcjar-snippets.srcjar",
+        ":language_go_gapic_srcjar-test.srcjar",
         ":language_go_proto",
     ],
 )
@@ -204,8 +205,8 @@ php_gapic_library(
     name = "language_php_gapic",
     srcs = [":language_proto_with_info"],
     grpc_service_config = "language_grpc_service_config.json",
-    rest_numeric_enums = True,
     migration_mode = "NEW_SURFACE_ONLY",
+    rest_numeric_enums = True,
     service_yaml = "language_v2.yaml",
     transport = "grpc+rest",
     deps = [
@@ -257,8 +258,8 @@ nodejs_gapic_assembly_pkg(
 ##############################################################################
 load(
     "@com_google_googleapis_imports//:imports.bzl",
-    "ruby_gapic_assembly_pkg",
     "ruby_cloud_gapic_library",
+    "ruby_gapic_assembly_pkg",
     "ruby_grpc_library",
     "ruby_proto_library",
 )
@@ -365,4 +366,13 @@ cc_grpc_library(
     srcs = [":language_proto"],
     grpc_only = True,
     deps = [":language_cc_proto"],
+)
+
+java_gapic_spring_library(
+    name = "language_java_gapic_spring",
+    srcs = [":language_proto_with_info"],
+    gapic_yaml = None,
+    grpc_service_config = "language_grpc_service_config.json",
+    service_yaml = "language_v2.yaml",
+    transport = "grpc+rest",
 )

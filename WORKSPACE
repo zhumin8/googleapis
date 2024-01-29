@@ -93,7 +93,7 @@ load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
 
 rules_pkg_dependencies()
 
-# This must be above the download of gRPC (in C++ section) and 
+# This must be above the download of gRPC (in C++ section) and
 # rules_gapic_repositories because both depend on rules_go and we need to manage
 # our version of rules_go explicitly rather than depend on the version those
 # bring in transitively.
@@ -163,7 +163,8 @@ load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
 
 grpc_deps()
 
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps", "PROTOBUF_MAVEN_ARTIFACTS")
+load("@com_google_protobuf//:protobuf_deps.bzl", "PROTOBUF_MAVEN_ARTIFACTS", "protobuf_deps")
+
 # This is actually already done within grpc_deps but calling this for Bazel convention.
 protobuf_deps()
 
@@ -206,7 +207,6 @@ rules_proto_toolchains()
 # It must also come before gapic-generator-go so as to ensure that it does not bring in an old
 # version of rules_gapic.
 _rules_gapic_version = "1.0.0"
-
 
 http_archive(
     name = "rules_gapic",
@@ -276,26 +276,24 @@ rules_gapic_repositories()
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
-maven_install(
-    artifacts = PROTOBUF_MAVEN_ARTIFACTS,
-    generate_compat_repositories = True,
-    repositories = [
-        "https://repo.maven.apache.org/maven2/",
-    ],
-)
-
 _gapic_generator_java_version = "2.32.0"
+_spring_cloud_generator_version = "5.0.1-SNAPSHOT" # {x-version-update:spring-cloud-gcp:current}
 
 maven_install(
     artifacts = [
-        "com.google.api:gapic-generator-java:" + _gapic_generator_java_version,
+        "com.google.cloud:spring-cloud-generator:" + _spring_cloud_generator_version,
     ],
     #Update this False for local development
-    fail_on_missing_checksum = True,
+    fail_on_missing_checksum = False,
     repositories = [
         "m2Local",
         "https://repo.maven.apache.org/maven2/",
     ]
+)
+
+local_repository(
+    name = "spring_cloud_generator",
+    path = "../../spring-cloud-generator",
 )
 
 http_archive(
@@ -346,7 +344,6 @@ load(
     "gapic_generator_python",
     "gapic_generator_register_toolchains",
 )
-
 load("@rules_python//python:repositories.bzl", "py_repositories")
 
 py_repositories()
@@ -382,32 +379,39 @@ http_archive(
     urls = ["https://github.com/googleapis/gapic-generator-typescript/archive/v%s.tar.gz" % _gapic_generator_typescript_version],
 )
 
-load("@gapic_generator_typescript//:repositories.bzl", "gapic_generator_typescript_repositories", "NODE_VERSION")
+load("@gapic_generator_typescript//:repositories.bzl", "NODE_VERSION", "gapic_generator_typescript_repositories")
+
 gapic_generator_typescript_repositories()
 
 load("@aspect_rules_js//js:repositories.bzl", "rules_js_dependencies")
+
 rules_js_dependencies()
 
 load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
+
 rules_ts_dependencies(
     ts_version_from = "@gapic_generator_typescript//:package.json",
 )
 
 load("@rules_nodejs//nodejs:repositories.bzl", "nodejs_register_toolchains")
+
 nodejs_register_toolchains(
-  name = "nodejs",
-  node_version = NODE_VERSION,
+    name = "nodejs",
+    node_version = NODE_VERSION,
 )
 
 load("@aspect_rules_js//npm:npm_import.bzl", "npm_translate_lock", "pnpm_repository")
+
 npm_translate_lock(
-  name = "npm",
-  pnpm_lock = "@gapic_generator_typescript//:pnpm-lock.yaml",
-  data = ["@gapic_generator_typescript//:package.json"],
+    name = "npm",
+    data = ["@gapic_generator_typescript//:package.json"],
+    pnpm_lock = "@gapic_generator_typescript//:pnpm-lock.yaml",
 )
 
 load("@npm//:repositories.bzl", "npm_repositories")
+
 npm_repositories()
+
 pnpm_repository(name = "pnpm")
 
 ##############################################################################
