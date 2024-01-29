@@ -69,6 +69,7 @@ load(
     "@com_google_googleapis_imports//:imports.bzl",
     "java_gapic_assembly_gradle_pkg",
     "java_gapic_library",
+    "java_gapic_spring_library",
     "java_gapic_test",
     "java_grpc_library",
     "java_proto_library",
@@ -243,7 +244,7 @@ php_gapic_library(
     name = "talent_php_gapic",
     srcs = [":talent_proto_with_info"],
     grpc_service_config = "talent_grpc_service_config.json",
-    migration_mode = "MIGRATING",
+    migration_mode = "MIGRATION_MODE_UNSPECIFIED",
     rest_numeric_enums = True,
     service_yaml = "jobs_v4.yaml",
     transport = "grpc+rest",
@@ -409,4 +410,12 @@ cc_grpc_library(
     srcs = [":talent_proto"],
     grpc_only = True,
     deps = [":talent_cc_proto"],
+)
+
+java_gapic_spring_library(
+    name = "talent_java_gapic_spring",
+    srcs = [":talent_proto_with_info"],
+    grpc_service_config = "talent_grpc_service_config.json",
+    service_yaml = "jobs_v4.yaml",
+    transport = "grpc+rest",
 )

@@ -50,6 +50,7 @@ load(
     "@com_google_googleapis_imports//:imports.bzl",
     "java_gapic_assembly_gradle_pkg",
     "java_gapic_library",
+    "java_gapic_spring_library",
     "java_gapic_test",
     "java_grpc_library",
     "java_proto_library",
@@ -70,7 +71,7 @@ java_gapic_library(
     name = "optimization_java_gapic",
     srcs = [":optimization_proto_with_info"],
     gapic_yaml = "cloudoptimization_gapic.yaml",
-    grpc_service_config = "cloudoptimization_grpc_service_config.json",
+    grpc_service_config = "cloudoptimization_v1_grpc_service_config.json",
     rest_numeric_enums = True,
     service_yaml = "cloudoptimization_v1.yaml",
     test_deps = [
@@ -130,7 +131,7 @@ go_proto_library(
 go_gapic_library(
     name = "optimization_go_gapic",
     srcs = [":optimization_proto_with_info"],
-    grpc_service_config = "cloudoptimization_grpc_service_config.json",
+    grpc_service_config = "cloudoptimization_v1_grpc_service_config.json",
     importpath = "cloud.google.com/go/optimization/apiv1;optimization",
     metadata = True,
     release_level = "ga",
@@ -171,7 +172,7 @@ load(
 py_gapic_library(
     name = "optimization_py_gapic",
     srcs = [":optimization_proto"],
-    grpc_service_config = "cloudoptimization_grpc_service_config.json",
+    grpc_service_config = "cloudoptimization_v1_grpc_service_config.json",
     rest_numeric_enums = True,
     service_yaml = "cloudoptimization_v1.yaml",
     transport = "grpc+rest",
@@ -215,14 +216,12 @@ php_proto_library(
 php_gapic_library(
     name = "optimization_php_gapic",
     srcs = [":optimization_proto_with_info"],
-    grpc_service_config = "cloudoptimization_grpc_service_config.json",
+    grpc_service_config = "cloudoptimization_v1_grpc_service_config.json",
     migration_mode = "MIGRATING",
     rest_numeric_enums = True,
     service_yaml = "cloudoptimization_v1.yaml",
     transport = "grpc+rest",
-    deps = [
-        ":optimization_php_proto",
-    ],
+    deps = [":optimization_php_proto"],
 )
 
 # Open Source Packages
@@ -248,7 +247,7 @@ nodejs_gapic_library(
     package_name = "@google-cloud/optimization",
     src = ":optimization_proto_with_info",
     extra_protoc_parameters = ["metadata"],
-    grpc_service_config = "cloudoptimization_grpc_service_config.json",
+    grpc_service_config = "cloudoptimization_v1_grpc_service_config.json",
     package = "google.cloud.optimization.v1",
     rest_numeric_enums = True,
     service_yaml = "cloudoptimization_v1.yaml",
@@ -295,7 +294,7 @@ ruby_cloud_gapic_library(
         "ruby-cloud-gem-name=google-cloud-optimization-v1",
         "ruby-cloud-product-url=https://cloud.google.com/optimization",
     ],
-    grpc_service_config = "cloudoptimization_grpc_service_config.json",
+    grpc_service_config = "cloudoptimization_v1_grpc_service_config.json",
     rest_numeric_enums = True,
     ruby_cloud_description = "Cloud Optimization API provides a portfolio of solvers to address common optimization use cases starting with optimal route planning for vehicle fleets.",
     ruby_cloud_title = "Cloud Optimization V1",
@@ -330,7 +329,6 @@ load(
 
 csharp_proto_library(
     name = "optimization_csharp_proto",
-    extra_opts = [],
     deps = [":optimization_proto"],
 )
 
@@ -344,7 +342,7 @@ csharp_gapic_library(
     name = "optimization_csharp_gapic",
     srcs = [":optimization_proto_with_info"],
     common_resources_config = "@gax_dotnet//:Google.Api.Gax/ResourceNames/CommonResourcesConfig.json",
-    grpc_service_config = "cloudoptimization_grpc_service_config.json",
+    grpc_service_config = "cloudoptimization_v1_grpc_service_config.json",
     rest_numeric_enums = True,
     service_yaml = "cloudoptimization_v1.yaml",
     transport = "grpc+rest",
@@ -383,4 +381,13 @@ cc_grpc_library(
     srcs = [":optimization_proto"],
     grpc_only = True,
     deps = [":optimization_cc_proto"],
+)
+
+java_gapic_spring_library(
+    name = "optimization_java_gapic_spring",
+    srcs = [":optimization_proto_with_info"],
+    gapic_yaml = "cloudoptimization_gapic.yaml",
+    grpc_service_config = "cloudoptimization_v1_grpc_service_config.json",
+    service_yaml = "cloudoptimization_v1.yaml",
+    transport = "grpc+rest",
 )

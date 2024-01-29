@@ -53,6 +53,7 @@ load(
     "@com_google_googleapis_imports//:imports.bzl",
     "java_gapic_assembly_gradle_pkg",
     "java_gapic_library",
+    "java_gapic_spring_library",
     "java_gapic_test",
     "java_grpc_library",
     "java_proto_library",
@@ -195,15 +196,16 @@ py_gapic_library(
     ],
 )
 
-py_test(
-    name = "servicemanagement_py_gapic_test",
-    srcs = [
-        "servicemanagement_py_gapic_pytest.py",
-        "servicemanagement_py_gapic_test.py",
-    ],
-    legacy_create_init = False,
-    deps = [":servicemanagement_py_gapic"],
-)
+# TODO(b/273967687): Re-enable when the bug is resolved.
+# py_test(
+#     name = "servicemanagement_py_gapic_test",
+#     srcs = [
+#         "servicemanagement_py_gapic_pytest.py",
+#         "servicemanagement_py_gapic_test.py",
+#     ],
+#     legacy_create_init = False,
+#     deps = [":servicemanagement_py_gapic"],
+# )
 
 # Open Source Packages
 py_gapic_assembly_pkg(
@@ -232,7 +234,7 @@ php_gapic_library(
     name = "servicemanagement_php_gapic",
     srcs = [":servicemanagement_proto_with_info"],
     grpc_service_config = "servicemanagement_grpc_service_config.json",
-    migration_mode = "MIGRATING",
+    migration_mode = "MIGRATION_MODE_UNSPECIFIED",
     rest_numeric_enums = True,
     service_yaml = "servicemanagement_v1.yaml",
     transport = "grpc+rest",
@@ -347,7 +349,7 @@ load(
 
 csharp_proto_library(
     name = "servicemanagement_csharp_proto",
-    extra_opts = [],
+    extra_opts = [""],
     deps = [":servicemanagement_proto"],
 )
 
@@ -400,4 +402,13 @@ cc_grpc_library(
     srcs = [":servicemanagement_proto"],
     grpc_only = True,
     deps = [":servicemanagement_cc_proto"],
+)
+
+java_gapic_spring_library(
+    name = "servicemanagement_java_gapic_spring",
+    srcs = [":servicemanagement_proto_with_info"],
+    gapic_yaml = "servicemanagement_gapic.yaml",
+    grpc_service_config = "servicemanagement_grpc_service_config.json",
+    service_yaml = "servicemanagement_v1.yaml",
+    transport = "grpc+rest",
 )

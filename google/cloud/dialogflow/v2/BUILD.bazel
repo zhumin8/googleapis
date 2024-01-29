@@ -77,6 +77,7 @@ load(
     "@com_google_googleapis_imports//:imports.bzl",
     "java_gapic_assembly_gradle_pkg",
     "java_gapic_library",
+    "java_gapic_spring_library",
     "java_gapic_test",
     "java_grpc_library",
     "java_proto_library",
@@ -101,8 +102,8 @@ java_gapic_library(
     rest_numeric_enums = True,
     service_yaml = "dialogflow_v2.yaml",
     test_deps = [
-        ":dialogflow_java_grpc",
         "//google/cloud/location:location_java_grpc",
+        ":dialogflow_java_grpc",
     ],
     transport = "grpc+rest",
     deps = [
@@ -280,7 +281,7 @@ php_gapic_library(
     name = "dialogflow_php_gapic",
     srcs = [":dialogflow_proto_with_info"],
     grpc_service_config = "dialogflow_grpc_service_config.json",
-    migration_mode = "MIGRATING",
+    migration_mode = "MIGRATION_MODE_UNSPECIFIED",
     rest_numeric_enums = True,
     service_yaml = "dialogflow_v2.yaml",
     transport = "grpc+rest",
@@ -396,7 +397,6 @@ load(
 
 csharp_proto_library(
     name = "dialogflow_csharp_proto",
-    extra_opts = [],
     deps = [":dialogflow_proto"],
 )
 
@@ -449,4 +449,13 @@ cc_grpc_library(
     srcs = [":dialogflow_proto"],
     grpc_only = True,
     deps = [":dialogflow_cc_proto"],
+)
+
+java_gapic_spring_library(
+    name = "dialogflow_java_gapic_spring",
+    srcs = [":dialogflow_proto_with_info"],
+    gapic_yaml = None,
+    grpc_service_config = "dialogflow_grpc_service_config.json",
+    service_yaml = "dialogflow_v2.yaml",
+    transport = "grpc+rest",
 )

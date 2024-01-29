@@ -49,6 +49,7 @@ load(
     "@com_google_googleapis_imports//:imports.bzl",
     "java_gapic_assembly_gradle_pkg",
     "java_gapic_library",
+    "java_gapic_spring_library",
     "java_gapic_test",
     "java_grpc_library",
     "java_proto_library",
@@ -208,7 +209,7 @@ php_gapic_library(
     name = "accessapproval_php_gapic",
     srcs = [":accessapproval_proto_with_info"],
     grpc_service_config = "accessapproval_grpc_service_config.json",
-    migration_mode = "MIGRATING",
+    migration_mode = "MIGRATION_MODE_UNSPECIFIED",
     rest_numeric_enums = True,
     service_yaml = "accessapproval_v1.yaml",
     transport = "grpc+rest",
@@ -373,4 +374,13 @@ cc_grpc_library(
     srcs = [":accessapproval_proto"],
     grpc_only = True,
     deps = [":accessapproval_cc_proto"],
+)
+
+java_gapic_spring_library(
+    name = "accessapproval_java_gapic_spring",
+    srcs = [":accessapproval_proto_with_info"],
+    gapic_yaml = "accessapproval_gapic.yaml",
+    grpc_service_config = "accessapproval_grpc_service_config.json",
+    service_yaml = "accessapproval_v1.yaml",
+    transport = "grpc+rest",
 )

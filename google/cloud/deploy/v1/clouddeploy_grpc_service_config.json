@@ -61,14 +61,6 @@
         {
           "service": "google.cloud.deploy.v1.CloudDeploy",
           "method": "GetAutomation"
-        },
-        {
-          "service": "google.cloud.deploy.v1.CloudDeploy",
-          "method": "ListCustomTargetTypes"
-        },
-        {
-          "service": "google.cloud.deploy.v1.CloudDeploy",
-          "method": "GetCustomTargetType"
         }
       ],
       "timeout": "60s",
@@ -158,18 +150,6 @@
         {
           "service": "google.cloud.deploy.v1.CloudDeploy",
           "method": "CreateAutomation"
-        },
-        {
-          "service": "google.cloud.deploy.v1.CloudDeploy",
-          "method": "DeleteCustomTargetType"
-        },
-        {
-          "service": "google.cloud.deploy.v1.CloudDeploy",
-          "method": "UpdateCustomTargetType"
-        },
-        {
-          "service": "google.cloud.deploy.v1.CloudDeploy",
-          "method": "CreateCustomTargetType"
         }
       ],
       "timeout": "60s"

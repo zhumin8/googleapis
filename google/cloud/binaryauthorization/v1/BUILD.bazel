@@ -50,6 +50,7 @@ load(
     "@com_google_googleapis_imports//:imports.bzl",
     "java_gapic_assembly_gradle_pkg",
     "java_gapic_library",
+    "java_gapic_spring_library",
     "java_gapic_test",
     "java_grpc_library",
     "java_proto_library",
@@ -299,7 +300,7 @@ ruby_cloud_gapic_library(
         "ruby-cloud-gem-name=google-cloud-binary_authorization-v1",
         "ruby-cloud-product-url=https://cloud.google.com/binary-authorization/",
         "ruby-cloud-service-override=BinauthzManagementServiceV1=BinauthzManagementService;SystemPolicyV1=SystemPolicy;ValidationHelperV1=ValidationHelper",
-        "ruby-cloud-extra-dependencies=grafeas-v1=>0.0+<2.a",
+        "ruby-cloud-extra-dependencies=grafeas-v1=> 0.0|< 2.a",
         "ruby-cloud-yard-strict=false",
     ],
     grpc_service_config = "binaryauthorization_grpc_service_config.json",
@@ -389,4 +390,13 @@ cc_grpc_library(
     srcs = [":binaryauthorization_proto"],
     grpc_only = True,
     deps = [":binaryauthorization_cc_proto"],
+)
+
+java_gapic_spring_library(
+    name = "binaryauthorization_java_gapic_spring",
+    srcs = [":binaryauthorization_proto_with_info"],
+    gapic_yaml = None,
+    grpc_service_config = "binaryauthorization_grpc_service_config.json",
+    service_yaml = "binaryauthorization_v1.yaml",
+    transport = "grpc+rest",
 )

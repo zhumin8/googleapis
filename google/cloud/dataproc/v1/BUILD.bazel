@@ -27,8 +27,6 @@ proto_library(
         "jobs.proto",
         "node_groups.proto",
         "operations.proto",
-        "session_templates.proto",
-        "sessions.proto",
         "shared.proto",
         "workflow_templates.proto",
     ],
@@ -63,6 +61,7 @@ load(
     "@com_google_googleapis_imports//:imports.bzl",
     "java_gapic_assembly_gradle_pkg",
     "java_gapic_library",
+    "java_gapic_spring_library",
     "java_gapic_test",
     "java_grpc_library",
     "java_proto_library",
@@ -243,7 +242,7 @@ php_gapic_library(
     name = "dataproc_php_gapic",
     srcs = [":dataproc_proto_with_info"],
     grpc_service_config = "dataproc_grpc_service_config.json",
-    migration_mode = "MIGRATING",
+    migration_mode = "MIGRATION_MODE_UNSPECIFIED",
     rest_numeric_enums = True,
     service_yaml = "dataproc_v1.yaml",
     transport = "grpc+rest",
@@ -411,4 +410,13 @@ cc_grpc_library(
     srcs = [":dataproc_proto"],
     grpc_only = True,
     deps = [":dataproc_cc_proto"],
+)
+
+java_gapic_spring_library(
+    name = "dataproc_java_gapic_spring",
+    srcs = [":dataproc_proto_with_info"],
+    gapic_yaml = "dataproc_gapic.yaml",
+    grpc_service_config = "dataproc_grpc_service_config.json",
+    service_yaml = "dataproc_v1.yaml",
+    transport = "grpc+rest",
 )

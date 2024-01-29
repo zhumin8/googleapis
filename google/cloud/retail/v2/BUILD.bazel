@@ -74,6 +74,7 @@ load(
     "@com_google_googleapis_imports//:imports.bzl",
     "java_gapic_assembly_gradle_pkg",
     "java_gapic_library",
+    "java_gapic_spring_library",
     "java_gapic_test",
     "java_grpc_library",
     "java_proto_library",
@@ -257,7 +258,7 @@ php_gapic_library(
     name = "retail_php_gapic",
     srcs = [":retail_proto_with_info"],
     grpc_service_config = "retail_grpc_service_config.json",
-    migration_mode = "MIGRATING",
+    migration_mode = "MIGRATION_MODE_UNSPECIFIED",
     rest_numeric_enums = True,
     service_yaml = "retail_v2.yaml",
     transport = "grpc+rest",
@@ -423,4 +424,13 @@ cc_grpc_library(
     srcs = [":retail_proto"],
     grpc_only = True,
     deps = [":retail_cc_proto"],
+)
+
+java_gapic_spring_library(
+    name = "retail_java_gapic_spring",
+    srcs = [":retail_proto_with_info"],
+    gapic_yaml = None,
+    grpc_service_config = "retail_grpc_service_config.json",
+    service_yaml = "retail_v2.yaml",
+    transport = "grpc+rest",
 )

@@ -142,6 +142,10 @@ def switched_rules_by_language(
         java and grpc and gapic,
         "@gapic_generator_java//rules_java_gapic:java_gapic.bzl",
     )
+    rules["java_gapic_spring_library"] = _switch(
+        java and grpc and gapic,
+        "@spring_cloud_generator//:java_gapic_spring.bzl",
+    )
     rules["java_gapic_test"] = _switch(
         java and grpc and gapic,
         "@gapic_generator_java//rules_java_gapic:java_gapic.bzl",

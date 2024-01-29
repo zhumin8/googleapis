@@ -256,9 +256,6 @@ message CostProjection {
 
   // Duration for which this cost applies.
   google.protobuf.Duration duration = 2;
-
-  // The approximate cost savings in the billing account's local currency.
-  google.type.Money cost_in_local_currency = 3;
 }
 
 // Contains various ways of describing the impact on Security.
@@ -343,7 +340,7 @@ message Impact {
     // Use with CategoryType.SUSTAINABILITY
     SustainabilityProjection sustainability_projection = 102;
 
-    // Use with CategoryType.RELIABILITY
+    // Use with CategoryType.RELAIBILITY
     ReliabilityProjection reliability_projection = 103;
   }
 }

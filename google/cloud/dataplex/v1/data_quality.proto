@@ -37,8 +37,13 @@ message DataQualitySpec {
     message BigQueryExport {
       // Optional. The BigQuery table to export DataQualityScan results to.
       // Format:
-      // //bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID
-      string results_table = 1 [(google.api.field_behavior) = OPTIONAL];
+      // projects/{project}/datasets/{dataset}/tables/{table}
+      string results_table = 1 [
+        (google.api.field_behavior) = OPTIONAL,
+        (google.api.resource_reference) = {
+          type: "bigquery.googleapis.com/Table"
+        }
+      ];
     }
 
     // Optional. If set, results will be exported to the provided BigQuery
@@ -107,23 +112,8 @@ message DataQualityResult {
   // Overall data quality result -- `true` if all rules passed.
   bool passed = 5;
 
-  // Output only. The overall data quality score.
-  //
-  // The score ranges between [0, 100] (up to two decimal points).
-  optional float score = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
-
   // A list of results at the dimension level.
-  //
-  // A dimension will have a corresponding `DataQualityDimensionResult` if and
-  // only if there is at least one rule with the 'dimension' field set to it.
   repeated DataQualityDimensionResult dimensions = 2;
-
-  // Output only. A list of results at the column level.
-  //
-  // A column will have a corresponding `DataQualityColumnResult` if and only if
-  // there is at least one rule with the 'column' field set to it.
-  repeated DataQualityColumnResult columns = 10
-      [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // A list of all the rules in a job, and their results.
   repeated DataQualityRuleResult rules = 3;
@@ -181,28 +171,8 @@ message DataQualityRuleResult {
 // DataQualityDimensionResult provides a more detailed, per-dimension view of
 // the results.
 message DataQualityDimensionResult {
-  // Output only. The dimension config specified in the DataQualitySpec, as is.
-  DataQualityDimension dimension = 1
-      [(google.api.field_behavior) = OUTPUT_ONLY];
-
   // Whether the dimension passed or failed.
   bool passed = 3;
-
-  // Output only. The dimension-level data quality score for this data scan job
-  // if and only if the 'dimension' field is set.
-  //
-  // The score ranges between [0, 100] (up to two decimal
-  // points).
-  optional float score = 4 [(google.api.field_behavior) = OUTPUT_ONLY];
-}
-
-// A dimension captures data quality intent about a defined subset of the rules
-// specified.
-message DataQualityDimension {
-  // The dimension name a rule belongs to. Supported dimensions are
-  // ["COMPLETENESS", "ACCURACY", "CONSISTENCY", "VALIDITY", "UNIQUENESS",
-  // "INTEGRITY"]
-  string name = 1;
 }
 
 // A rule captures data quality intent about a data source.
@@ -358,12 +328,7 @@ message DataQualityRule {
   // `ignore_null` is `true`. In that case, such `null` rows are trivially
   // considered passing.
   //
-  // This field is only valid for the following type of rules:
-  //
-  // * RangeExpectation
-  // * RegexExpectation
-  // * SetExpectation
-  // * UniquenessExpectation
+  // This field is only valid for row-level type rules.
   bool ignore_null = 501 [(google.api.field_behavior) = OPTIONAL];
 
   // Required. The dimension a rule belongs to. Results are also aggregated at
@@ -392,18 +357,4 @@ message DataQualityRule {
   //
   // * The maximum length is 1,024 characters.
   string description = 505 [(google.api.field_behavior) = OPTIONAL];
-}
-
-// DataQualityColumnResult provides a more detailed, per-column view of
-// the results.
-message DataQualityColumnResult {
-  // Output only. The column specified in the DataQualityRule.
-  string column = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
-
-  // Output only. The column-level data quality score for this data scan job if
-  // and only if the 'column' field is set.
-  //
-  // The score ranges between between [0, 100] (up to two decimal
-  // points).
-  optional float score = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
 }
