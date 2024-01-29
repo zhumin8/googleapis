@@ -48,6 +48,7 @@ load(
     "@com_google_googleapis_imports//:imports.bzl",
     "java_gapic_assembly_gradle_pkg",
     "java_gapic_library",
+    "java_gapic_spring_library",
     "java_gapic_test",
     "java_grpc_library",
     "java_proto_library",
@@ -377,4 +378,13 @@ cc_grpc_library(
     srcs = [":executions_proto"],
     grpc_only = True,
     deps = [":executions_cc_proto"],
+)
+
+java_gapic_spring_library(
+    name = "executions_java_gapic_spring",
+    srcs = [":executions_proto_with_info"],
+    gapic_yaml = "executions_gapic.yaml",
+    grpc_service_config = "executions_grpc_service_config.json",
+    service_yaml = "workflowexecutions_v1.yaml",
+    transport = "grpc+rest",
 )
